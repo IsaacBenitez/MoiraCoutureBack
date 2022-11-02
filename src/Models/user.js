@@ -16,20 +16,20 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        index: true
     },
     password: {
         type: String,
         required: true
     },
     rol: {
-        type: [String],
-        require:true
+        type: String,
+        required:true
     },
     cedula: {
         type: String,
-        require: true,
-        unique: true
+        required: false,
+        default: ""
     }
     
 });
