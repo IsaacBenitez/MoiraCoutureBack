@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
     cedula: {
         type: String,
         required: false,
-        default: ""
+        default: null
     }
     
 });
