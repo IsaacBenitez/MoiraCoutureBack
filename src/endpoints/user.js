@@ -1,11 +1,24 @@
 const express = require('express');
 const userSchema = require('../Models/user');
+const bcrypt = require('bcrypt');
 
 const route = express.Router();
 
 //create users
-route.post("/users", (req,res) => {
-    const user = userSchema(req.body);
+route.post("/users", async (req,res) => {
+    const { email, password, name, lastname, birthDate} = req.body;
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const user = userSchema({
+        email,
+        password: passwordHash,
+        name,
+        lastname,
+        birthDate,
+        rol
+    });
 
     user.save()
         .then((data) => res.json(data))

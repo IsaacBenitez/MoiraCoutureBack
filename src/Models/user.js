@@ -24,6 +24,7 @@ const userSchema = mongoose.Schema({
     },
     rol: {
         type: String,
+        default: "cliente",
         required:true
     },
     cedula: {
@@ -33,5 +34,15 @@ const userSchema = mongoose.Schema({
     }
     
 });
+
+userSchema.set('toJSON', {
+    transform: (document, returnObject) => {
+        returnObject.id = returnObject._id
+        delete returnObject._id
+        delete returnObject.__v
+        delete returnObject.password
+        delete returnObject.rol
+    }
+})
 
 module.exports = mongoose.model('User', userSchema);

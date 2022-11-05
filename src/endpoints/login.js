@@ -13,8 +13,8 @@ route.post("/login", async (req, res)=> {
 
     const passwordCorrect = user == null
         ? false
-        //: await bcrypt.compare(password, user.password);
-        : await password == user.password;
+        : await bcrypt.compare(password, user.password);
+        //: await password == user.password;
     //
 
     if (!(user && passwordCorrect)) {
