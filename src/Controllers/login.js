@@ -11,10 +11,11 @@ route.post("/login", async (req, res)=> {
 
     const user = await User.findOne({ email: email });
 
+    console.log(user);
+
     const passwordCorrect = user == null
         ? false
         : await bcrypt.compare(password, user.password);
-        //: await password == user.password;
     //
 
     if (!(user && passwordCorrect)) {
@@ -23,13 +24,14 @@ route.post("/login", async (req, res)=> {
         })
     }
 
-    const infoUserForToken = {
+    const userInfoForToken = {
         id: user._id,
-        name: user.name
+        name: user.name,
+        rol: user.rol
     }
 
     const token = jwt.sign(
-        infoUserForToken,
+        userInfoForToken,
         process.env.SECRET,
         {
             expiresIn: 60/*s*/ * 60/*min*/ * 3/*h*/

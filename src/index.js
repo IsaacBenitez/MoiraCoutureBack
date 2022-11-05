@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require("dotenv").config();
-const user = require("./endpoints/user");
-const product = require("./endpoints/product");
-const login = require("./endpoints/login");
+const user = require("./Controllers/user");
+const product = require("./Controllers/product");
+const login = require("./Controllers/login");
 
 const app = express();
 const port = process.env.PORT || 9000;
