@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require("dotenv").config();
 const user = require("./endpoints/user");
 const product = require("./endpoints/product");
+const login = require("./endpoints/login");
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -11,14 +12,15 @@ const port = process.env.PORT || 9000;
 app.use(express.json());
 app.use('/api', user);
 app.use('/api', product);
+app.use("/api", login);
 
 //endpoint
 app.get("/", (req, res) => {
    res.send("Welcome to my API") 
 });
 
-//DB connection
 
+//DB connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Connected to MongoDB Atlas"))
     .catch((error) => console.error(error));
