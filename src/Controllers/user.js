@@ -16,8 +16,7 @@ route.post("/users", async (req,res) => {
         password: passwordHash,
         name,
         lastname,
-        birthDate,
-        rol
+        birthDate
     });
 
     user.save()

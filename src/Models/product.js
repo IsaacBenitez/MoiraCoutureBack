@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
-    tipo: {
+    categoria: {
         type: String,
         required: true
     },
@@ -28,8 +28,21 @@ const productSchema = mongoose.Schema({
     descripcion: {
         type: String,
         required: true
-    }
+    },
+    nombre: {
+        type: String,
+        required: true
+    },
+    imagenes: [{ type: String }]
 
 });
+
+productSchema.set('toJSON', {
+    transform: (doc,returnObject) => {
+        returnObject.id = returnObject._id
+        delete returnObject._id
+        delete returnObject.__v
+    }
+})
 
 module.exports = mongoose.model('Product', productSchema);

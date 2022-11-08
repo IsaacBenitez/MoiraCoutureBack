@@ -27,9 +27,30 @@ const userSchema = mongoose.Schema({
         default: "cliente",
         required:true
     },
-    cedula: {
+    adrress: [{
+        departamento: {
+            type: String,
+            default: null
+        },
+        ciudad: {
+            type: String,
+            default: null
+        },
+        barrio: {
+            type: String,
+            default: null
+        },
+        direccion: {
+            type: String,
+            default: null
+        },
+        referencia: {
+            type: String,
+            default: null
+        }
+    }],
+    cellphone: {
         type: String,
-        required: false,
         default: null
     }
     
