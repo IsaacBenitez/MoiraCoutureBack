@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
         default: "cliente",
         required:true
     },
-    adrress: [{
+    adrress: {
         departamento: {
             type: String,
             default: null
@@ -48,7 +48,7 @@ const userSchema = mongoose.Schema({
             type: String,
             default: null
         }
-    }],
+    },
     cellphone: {
         type: String,
         default: null

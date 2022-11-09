@@ -20,27 +20,28 @@ route.post("/login", async (req, res)=> {
         res.status(401).json({
             error: 'Invalid email or password'
         })
-    }
-
-    const userInfoForToken = {
-        id: user._id,
-        name: user.name,
-        rol: user.rol
-    }
-
-    const token = jwt.sign(
-        userInfoForToken,
-        process.env.SECRET,
-        {
-            expiresIn: 60/*s*/ * 60/*min*/ * 3/*h*/
+    } else {
+        const userInfoForToken = {
+            id: user._id,
+            email: user.email,
+            rol: user.rol
         }
-    );
 
-    res.send({
-        email: user.email,
-        user: user.name,
-        token
-    });
+        const token = jwt.sign(
+            userInfoForToken,
+            process.env.SECRET,
+            {
+                expiresIn: 60/*s*/ * 60/*min*/ * 3/*h*/
+            }
+        );
+
+        res.send({
+            id: user._id,
+            token
+        });
+    }
+
+   
 
 });
 

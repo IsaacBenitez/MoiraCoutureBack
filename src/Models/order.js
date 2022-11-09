@@ -28,4 +28,12 @@ const orderSchema = mongoose.Schema({
 
 });
 
+orderSchema.set("toJSON", {
+    transform:(doc,returnObject) => {
+        returnObject.id = returnObject._id
+        delete returnObject._id
+        delete returnObject.__v
+    }
+})
+
 module.exports = mongoose.model('Order', orderSchema);
