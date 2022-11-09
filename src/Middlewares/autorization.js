@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     const authorization = req.get("authorization");
     let token = '';
 
-    if (authorization && authorization.toLowerCase().startWith('bearer')) {
+    if (authorization && authorization.toLowerCase().startsWith('bearer')) {
         token = authorization.split(' ')[1];
     }
 
@@ -16,8 +16,10 @@ module.exports = (req, res, next) => {
     }
 
     const { id: userId } = decodedToken;
+    const { rol: userRol } = decodedToken;
 
     req.userId = userId;
+    req.userRol = userRol
 
     next();
 }

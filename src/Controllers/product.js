@@ -1,5 +1,6 @@
 const express = require('express');
 const productSchema = require('../Models/product');
+const autorization = require('../Middlewares/autorization');
 
 const route = express.Router();
 
@@ -12,7 +13,7 @@ route.post("/products", (req,res) => {
 
 });
 
-//get all users
+//get all products
 route.get("/products", (req, res) => {
     productSchema
         .find()
@@ -21,7 +22,7 @@ route.get("/products", (req, res) => {
 
 });
 
-//get a user
+//get a product
 route.get("/products/:id", (req, res) => {
     const { id } = req.params;
     productSchema
@@ -31,18 +32,25 @@ route.get("/products/:id", (req, res) => {
 
 });
 
-//update user
-route.put("/products/:id", (req, res) => {
+//update product
+route.put("/products/:id", autorization, (req, res) => {
     const { id } = req.params;
     const { tipo, sexo, talla, color, precio, stock, descripcion } = req.body;
-    productSchema
-        .updateOne({_id:id},{$set:{tipo, sexo, talla, color, precio, stock, descripcion}})
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+    const { userRol } = req;
+
+    if (userRol == 'admin') {
+        productSchema
+            .updateOne({ _id: id }, { $set: { tipo, sexo, talla, color, precio, stock, descripcion } })
+            .then((data) => res.json(data))
+            .catch((error) => res.json({ message: error }));
+    } else {
+        res.status(401).json({ error:"You do not have the permissions to perform this action with the credentials provided."})
+    }
+    
 
 });
 
-//delete user
+//delete product
 route.delete("/products/:id", (req, res) => {
     const { id } = req.params;
     productSchema
