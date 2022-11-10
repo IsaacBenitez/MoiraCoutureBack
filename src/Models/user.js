@@ -16,7 +16,8 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        index: true
+        index: true,
+        unique: true
     },
     password: {
         type: String,
@@ -27,7 +28,7 @@ const userSchema = mongoose.Schema({
         default: "cliente",
         required:true
     },
-    adrress: {
+    address: {
         departamento: {
             type: String,
             default: null

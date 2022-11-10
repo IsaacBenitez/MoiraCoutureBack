@@ -33,8 +33,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    imagenes: [{ type: String }]
-
+    imagen: {
+        type: String,
+        required: true
+    }
 });
 
 productSchema.set('toJSON', {
