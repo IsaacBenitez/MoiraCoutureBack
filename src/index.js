@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require("dotenv").config();
 const user = require("./Controllers/user");
 const product = require("./Controllers/product");
@@ -9,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use('/api', user);
 app.use('/api', product);
