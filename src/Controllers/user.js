@@ -8,7 +8,7 @@ const route = express.Router();
 
 //create users
 route.post("/users", exists, async (req,res) => {
-    const { email, password, name, lastname, birthDate} = req.body;
+    const { email, password, name, lastname, birthDate, cellphone, address } = req.body;
 
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
@@ -19,6 +19,8 @@ route.post("/users", exists, async (req,res) => {
         name,
         lastname,
         birthDate,
+        cellphone,
+        address
     });
 
     user.save()
