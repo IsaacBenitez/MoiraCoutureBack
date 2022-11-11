@@ -1,6 +1,7 @@
 const express = require('express');
 const productSchema = require('../Models/product');
 const autorization = require('../Middlewares/autorization');
+const exists = require('../Middlewares/productExists');
 
 const route = express.Router();
 
@@ -29,7 +30,7 @@ route.get("/products", (req, res) => {
 });
 
 //get a product
-route.get("/products/:id", (req, res) => {
+route.get("/products/:id", async (req, res) => {
     const { id } = req.params;
     productSchema
         .findById(id)
@@ -39,14 +40,14 @@ route.get("/products/:id", (req, res) => {
 });
 
 //update product
-route.put("/products/:id", autorization, (req, res) => {
+route.put("/products/:id", exists, autorization, (req, res) => {
     const { id } = req.params;
-    const { tipo, sexo, talla, color, precio, stock, descripcion } = req.body;
+    const { categoria, sexo, talla, color, precio, stock, descripcion, imagen, nombre } = req.body;
     const { userRol } = req;
 
     if (userRol == 'admin') {
         productSchema
-            .updateOne({ _id: id }, { $set: { tipo, sexo, talla, color, precio, stock, descripcion } })
+            .updateOne({ _id: id }, { $set: { categoria, sexo, talla, color, precio, stock, descripcion, imagen, nombre } })
             .then((data) => res.json(data))
             .catch((error) => res.json({ message: error }));
     } else {
@@ -57,7 +58,7 @@ route.put("/products/:id", autorization, (req, res) => {
 });
 
 //delete product
-route.delete("/products/:id",autorization, (req, res) => {
+route.delete("/products/:id",exists, autorization, async (req, res) => {
     const { id } = req.params;
     const { userRol } = req;
     

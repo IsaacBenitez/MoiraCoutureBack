@@ -1,11 +1,13 @@
 const express = require('express');
 const userSchema = require('../Models/user');
 const bcrypt = require('bcrypt');
+const exists = require('../Middlewares/emailExists');
+
 
 const route = express.Router();
 
 //create users
-route.post("/users", async (req,res) => {
+route.post("/users", exists, async (req,res) => {
     const { email, password, name, lastname, birthDate} = req.body;
 
     const saltRounds = 10;
@@ -50,9 +52,9 @@ route.get("/users/:id", (req, res) => {
 //update user
 route.put("/users/:id", (req, res) => {
     const { id } = req.params;
-    const { name, age, email } = req.body;
+    const { name, lastname, birthDate, email, password, phonenumber, address } = req.body;
     userSchema
-        .updateOne({_id:id},{$set:{name,age,email}})
+        .updateOne({ _id: id }, { $set: { name, lastname, birthDate, email, password, phonenumber, address }})
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 
@@ -71,3 +73,5 @@ route.delete("/users/:id", (req, res) => {
 });
 
 module.exports = route;
+
+
