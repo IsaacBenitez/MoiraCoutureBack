@@ -13,7 +13,7 @@ route.post("/products",autorization, (req,res) => {
     if (userRol == 'admin') {
         product.save()
             .then((data) => res.json(data))
-            .catch((error) => res.json({ message: error }));
+            .catch((error) => res.status(400).json({ message: error }));
     } else {
         res.status(401).json({ error: "You do not have the permissions to perform this action with the credentials provided." })
     }
@@ -35,7 +35,7 @@ route.get("/products/:id", async (req, res) => {
     productSchema
         .findById(id)
         .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .catch((error) => res.status(404).json({ message: error }));
 
 });
 
