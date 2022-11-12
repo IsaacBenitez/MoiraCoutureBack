@@ -9,10 +9,13 @@ const route = express.Router();
 //create users
 route.post("/users", exists, async (req,res) => {
     const { email, password, name, lastname, birthDate, cellphone, address } = req.body;
+    let passwordHash = password;
 
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-
+    if (password != '') {
+        const saltRounds = 10;
+        passwordHash = await bcrypt.hash(password, saltRounds);
+    }
+    
     const user = userSchema({
         email,
         password: passwordHash,
@@ -25,7 +28,7 @@ route.post("/users", exists, async (req,res) => {
 
     user.save()
         .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .catch((error) => res.status(400).json({ message: error }));
     
      
 });
@@ -58,7 +61,7 @@ route.put("/users/:id", (req, res) => {
     userSchema
         .updateOne({ _id: id }, { $set: { name, lastname, birthDate, email, password, phonenumber, address }})
         .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .catch((error) => res.status(404).json({ message: error }));
 
 
 });
@@ -69,7 +72,7 @@ route.delete("/users/:id", (req, res) => {
     userSchema
         .deleteOne({ _id: id })
         .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+        .catch((error) => res.status(404).json({ message: error }));
 
 
 });
