@@ -26,6 +26,15 @@ route.post("/products",autorization, (req,res) => {
 
 //get all products
 route.get("/products/", (req, res) => {
+    productSchema
+        .find()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
+
+});
+
+//get all products by sex
+route.get("/products/", (req, res) => {
     const { sexo } = req.query
    
     productSchema
@@ -35,7 +44,7 @@ route.get("/products/", (req, res) => {
 
 });
 
-//get a product
+//get a product by id
 route.get("/products/:id", (req, res) => {
     const { id } = req.params;
  
