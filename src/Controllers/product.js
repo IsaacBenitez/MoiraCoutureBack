@@ -25,19 +25,22 @@ route.post("/products",autorization, (req,res) => {
 });
 
 //get all products
-route.get("/products", (req, res) => {
+route.get("/products/", (req, res) => {
+    const { sexo } = req.query
+   
     productSchema
-        .find()
+        .find({sexo:sexo})
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 
 });
 
 //get a product
-route.get("/products/:id", async (req, res) => {
+route.get("/products/:id", (req, res) => {
     const { id } = req.params;
+ 
     productSchema
-        .findById(id)
+        .find({_id:id})
         .then((data) => res.json(data))
         .catch((error) => res.status(404).json({ message: error }));
 
