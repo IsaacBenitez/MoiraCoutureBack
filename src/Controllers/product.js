@@ -15,7 +15,11 @@ route.post("/products",autorization, (req,res) => {
             .then((data) => res.json(data))
             .catch((error) => res.status(400).json({ message: error }));
     } else {
-        res.status(401).json({ error: "You do not have the permissions to perform this action with the credentials provided." })
+        res.status(401).json({
+            error:{
+                message:"You do not have the permissions to perform this action with the credentials provided."
+            }
+        })
     }
 
 });

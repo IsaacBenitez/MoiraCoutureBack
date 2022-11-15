@@ -9,17 +9,27 @@ module.exports = (req, res, next) => {
         token = authorization.split(' ')[1];
     }
 
-    const decodedToken = jwt.verify(token, process.env.SECRET);
+    try {
+        const decodedToken = jwt.verify(token, process.env.SECRET);  
+        
+        if (!token || !decodedToken.id) {
+            return res.status(401).json({ error: 'token missing or invalid' });
+        }
 
-    if (!token || !decodedToken.id) {
-        return res.status(401).json({ error: 'token missing or invalid' });
+        const { id: userId } = decodedToken;
+        const { rol: userRol } = decodedToken;
+
+        req.userId = userId;
+        req.userRol = userRol
+
+        next();
+
+
+    } catch (error) {
+        console.log(error)   
+        res.status(401).json({error:error})
     }
+    
 
-    const { id: userId } = decodedToken;
-    const { rol: userRol } = decodedToken;
-
-    req.userId = userId;
-    req.userRol = userRol
-
-    next();
+    
 }
