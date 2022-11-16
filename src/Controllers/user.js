@@ -55,14 +55,20 @@ route.get("/users/:id", (req, res) => {
 });
 
 //update user
-route.put("/users/:id", (req, res) => {
+route.put("/users/:id", async (req, res) => {
     const { id } = req.params;
     const { name, lastname, birthDate, email, password, phonenumber, address } = req.body;
+    let passwordHash=password;
+
+    if (password != '' && password) {
+        const saltRounds = 10;
+        passwordHash = await bcrypt.hash(password, saltRounds);
+    }
+
     userSchema
-        .updateOne({ _id: id }, { $set: { name, lastname, birthDate, email, password, phonenumber, address }})
+        .updateOne({ _id: id }, { $set: { name, lastname, birthDate, email, password:passwordHash, phonenumber, address }})
         .then((data) => res.json(data))
         .catch((error) => res.status(404).json({ message: error }));
-
 
 });
 

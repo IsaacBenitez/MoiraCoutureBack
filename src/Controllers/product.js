@@ -49,7 +49,7 @@ route.get("/products/:id", (req, res) => {
     const { id } = req.params;
  
     productSchema
-        .find({_id:id})
+        .findOne({_id:id})
         .then((data) => res.json(data))
         .catch((error) => res.status(404).json({ message: error }));
 
@@ -65,7 +65,7 @@ route.put("/products/:id", exists, autorization, (req, res) => {
         productSchema
             .updateOne({ _id: id }, { $set: { categoria, sexo, talla, color, precio, stock, descripcion, imagen, nombre } })
             .then((data) => res.json(data))
-            .catch((error) => res.status(404).json({ message: error }));
+            .catch((error) => res.status(400).json({ message: error }));
     } else {
         res.status(401).json({ error:"You do not have the permissions to perform this action with the credentials provided."})
     }
@@ -82,7 +82,7 @@ route.delete("/products/:id",exists, autorization, async (req, res) => {
         productSchema
             .deleteOne({ _id: id })
             .then((data) => res.json(data))
-            .catch((error) => res.status(404).json({ message: error }));
+            .catch((error) => res.status(400).json({ message: error }));
     } else {
         res.status(401).json({ error: "You do not have the permissions to perform this action with the credentials provided." })
     }
