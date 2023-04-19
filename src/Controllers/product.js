@@ -5,7 +5,7 @@ const exists = require('../Middlewares/productExists');
 
 const route = express.Router();
 
-//create users
+//create products
 route.post("/products",autorization, (req,res) => {
     const product = productSchema(req.body);
     const { userRol } = req;
